@@ -1,0 +1,7 @@
+011123
+Build Tool- SBT Typelevel
+IDE- VsCode
+created build.sbt, discussed sbt basics
+
+doubts:
+build.sbt line 3 explanation check which code when changed reloads build.sbt
