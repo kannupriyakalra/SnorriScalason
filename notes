@@ -1,4 +1,5 @@
-011123
+011123 
+- at ClearScore office, joined slack, join discord
 Build Tool- SBT Typelevel
 IDE- VsCode
 created build.sbt, discussed sbt basics
