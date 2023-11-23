@@ -2,6 +2,9 @@ ThisBuild / scalaVersion := "3.3.1"
 
 ThisBuild / tlBaseVersion := "0.1"
 
+ThisBuild / organization := "org.scalabridgelondon"
+ThisBuild / organizationName := "ScalaBridge London"
+
 ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
