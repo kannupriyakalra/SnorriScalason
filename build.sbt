@@ -5,7 +5,7 @@ ThisBuild / tlBaseVersion := "0.1"
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 val commonSettings = Seq(
-    libraryDependencies += "org.creativescala" %% "krop-core" % "0.4.1" 
+    libraryDependencies += "org.creativescala" %% "krop-core" % "0.6.0"
 )
 
 lazy val root = project.in(file(".")).aggregate(backend, frontend)
