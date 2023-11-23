@@ -2,8 +2,24 @@ ThisBuild / scalaVersion := "3.3.1"
 
 ThisBuild / tlBaseVersion := "0.1"
 
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
+
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
+// Run this command (build) to do everything involved in building the project
+commands += Command.command("build") { state =>
+    "clean" ::
+    "compile" ::
+    "test" ::
+    "scalafixAll" ::
+    "scalafmtAll" ::
+    "headerCreateAll" ::
+    "githubWorkflowGenerate" ::
+    "dependencyUpdates" ::
+    "reload plugins; dependencyUpdates; reload return" ::
+    state
+}
 val commonSettings = Seq(
     libraryDependencies += "org.creativescala" %% "krop-core" % "0.6.0"
 )
