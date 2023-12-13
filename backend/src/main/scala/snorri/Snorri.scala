@@ -16,12 +16,24 @@
 
 package snorri
 
+import cats.effect.IO
+import io.circe.Json
 import krop.all.*
+import krop.route.InvariantEntity
+import org.http4s.headers.`Content-Type`
+import org.http4s.syntax.all.mediaType
+import org.http4s.circe._
 
 object Snorri {
+  val json: InvariantEntity[Json] =
+    Entity(
+      CirceEntityDecoder.circeEntityDecoder,
+      CirceEntityEncoder.circeEntityEncoder
+    )
+
   val route =
     Route(
       Request.get(Path.root / "echo" / Param.string),
-      Response.ok(Entity.text)
-    ).handle(param => s"Your message was ${param}")
+      Response.ok(json/*.withContentType(`Content-Type`(mediaType"application/json"))*/)
+    ).handle(param => Json.fromString(param))
 }
