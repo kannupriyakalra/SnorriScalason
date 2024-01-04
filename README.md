@@ -1,4 +1,5 @@
 # SnorriScalason
-ScalaBridge Project- mentored by Noel Welsh
+
+ScalaBridge Project - mentored by Noel Welsh
 
 
