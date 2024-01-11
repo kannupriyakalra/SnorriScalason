@@ -1,6 +1,6 @@
 package snorri
 
-import krop.all.{*, given}
+import krop.all.*
 
 object Server {
   val app: Application = Snorri.route.otherwise(Application.notFound)
