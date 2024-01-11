@@ -5,7 +5,7 @@ ThisBuild / tlBaseVersion   := "0.1"
 ThisBuild / tlCiHeaderCheck := false
 
 val commonSettings = Seq(
-  libraryDependencies += "org.creativescala" %% "krop-core" % "0.4.1"
+  libraryDependencies += "org.creativescala" %% "krop-core" % "0.6.0"
 )
 
 lazy val snorriRoot =

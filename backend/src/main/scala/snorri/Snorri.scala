@@ -6,6 +6,6 @@ object Snorri {
   val route =
     Route(
       Request.get(Path.root / "echo" / Param.string),
-      Response.ok[String]
+      Response.ok(Entity.text)
     ).handle(param => s"Your message was ${param}")
 }
