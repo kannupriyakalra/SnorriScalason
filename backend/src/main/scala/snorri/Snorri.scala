@@ -54,9 +54,4 @@ object Snorri {
       Response.ok(json/*.withContentType(`Content-Type`(mediaType"application/json"))*/)
     ).handle(_ => encodeAsJson(decode(readBooks)))
   }
-
-  // TODO: 
-  // 1:  Fill in the case class.
-  // 2. Get a book with a given id. Filter books by fields
-  // 3. Have the fields as query parameters.
 }
