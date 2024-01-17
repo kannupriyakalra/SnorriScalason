@@ -1,0 +1,60 @@
+[
+  {
+    "id": "978-0641723445",
+    "name": "The Lightning Thief",
+    "author": "Rick Riordan",
+    "price": 12.50,
+    "pages": 384,
+    "genres": "fantasy",
+    "inStock": true,
+    "series_t": "Percy Jackson and the Olympians",
+    "sequence_i": 1,
+    "cat": [
+      "book",
+      "hardcover"
+    ]
+  },
+  {
+    "id": "978-1423103349",
+    "name": "The Sea of Monsters",
+    "author": "Rick Riordan",
+    "price": 6.49,
+    "pages": 304,
+    "genres": "fantasy",
+    "inStock": true,
+    "series_t": "Percy Jackson and the Olympians",
+    "sequence_i": 2,
+    "cat": [
+      "book",
+      "paperback"
+    ]
+  },
+  {
+    "id": "978-1857995879",
+    "name": "Sophie's World : The Greek Philosophers",
+    "author": "Jostein Gaarder",
+    "price": 3.07,
+    "pages": 64,
+    "genres": "fantasy",
+    "inStock": true,
+    "sequence_i": 1,
+    "cat": [
+      "book",
+      "paperback"
+    ]
+  },
+  {
+    "id": "978-1933988177",
+    "name": "Lucene in Action, Second Edition",
+    "author": "Michael McCandless",
+    "price": 30.50,
+    "pages": 475,
+    "genres": "IT",
+    "inStock": true,
+    "sequence_i": 1,
+    "cat": [
+      "book",
+      "paperback"
+    ]
+  }
+]
