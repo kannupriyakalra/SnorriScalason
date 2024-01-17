@@ -38,9 +38,7 @@ object Snorri {
     }
 
   private def retrieveBooks(): String =
-    use(booksResource()) { src =>
-      src.mkString
-    }
+    use(booksResource())(_.mkString)
 
   private def booksResource(): BufferedSource = {
     val stream = getClass.getResourceAsStream("/book.json")

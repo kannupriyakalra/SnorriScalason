@@ -7,8 +7,7 @@ ThisBuild / tlCiHeaderCheck := false
 val commonSettings = Seq(
   libraryDependencies ++=
     "org.creativescala" %% "krop-core" % "0.6.0" ::
-      Modules.circe :::
-      Nil
+      Modules.circe
 )
 
 lazy val snorriRoot =
