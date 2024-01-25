@@ -11,6 +11,9 @@ import org.http4s.circe.{CirceEntityDecoder, CirceEntityEncoder}
 import scala.io.{BufferedSource, Source}
 
 object Snorri {
+
+  private val booksDb: Map[String, Book] = loadBooks()
+
   private val jsonEntity: InvariantEntity[Json] =
     Entity(
       CirceEntityDecoder.circeEntityDecoder,
@@ -23,15 +26,22 @@ object Snorri {
       Response.ok(Entity.text)
     ).handle(param => s"Your message was $param")
 
-  val getBooksRoute =
+  val getAllBooksRoute =
     Route(
       Request.get(Path.root / "books"),
       Response.ok(jsonEntity)
-    ).handle(() => loadBooks().asJson)
+    ).handle(() => booksDb.asJson)
 
-  private def loadBooks(): List[Book] =
+  val getBookByIdRoute = {
+    Route(
+      Request.get(Path.root / "books" :? Query("id", Param.string)),
+      Response.OrNotFound(jsonEntity)
+    ).handle(mId => mId.map(id => booksDb.get(id)))
+  }
+
+  private def loadBooks(): Map[String, Book] =
     decode[List[Book]](retrieveBooks()) match {
-      case Right(books) => books
+      case Right(books) => books.map(b => b.id -> b).toMap
       case Left(err) =>
         err.fillInStackTrace().printStackTrace()
         throw err.getCause
