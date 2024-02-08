@@ -13,7 +13,7 @@ val commonSettings = Seq(
 lazy val snorriRoot =
   project
     .in(file("."))
-    .aggregate(backend, frontend)
+    .aggregate(backend, frontend, integration)
 
 lazy val backend =
   project
@@ -30,3 +30,15 @@ lazy val frontend =
   project
     .in(file("frontend"))
     .settings(commonSettings)
+
+lazy val integration = (project in file("integration"))
+  .dependsOn(backend)
+  .settings(
+    publish / skip := true,
+    libraryDependencies ++=
+      "com.dimafeng" %% "testcontainers-scala-scalatest" % "0.41.2" % Test ::
+      "com.dimafeng" %% "testcontainers-scala-postgresql" % "0.41.2" % Test ::
+      "org.postgresql" % "postgresql" % "42.5.1" % Test ::
+      "org.scalatest" %% "scalatest" % "3.2.18" % Test ::
+      Nil
+  )
