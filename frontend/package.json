@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "parcel src/main/html/index.html --no-cache --dist-dir dist --log-level info",
+    "build": "parcel build src/main/html/index.html --dist-dir dist --log-level info"
+  },
+  "devDependencies": {
+    "parcel": "^2.1.0",
+    "postcss": "^8.4.35",
+    "process": "^0.11.10",
+    "tailwindcss": "^3.4.1"
+  }
+}
