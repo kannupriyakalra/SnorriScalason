@@ -5,7 +5,8 @@ import krop.all.given
 
 object Server {
   private val app: Application =
-    Snorri.getBooksRoute
+    Snorri.getBookByIdRoute
+      .orElse(Snorri.getAllBooksRoute)
       .orElse(Snorri.echoRoute)
       .orElse(Application.notFound)
 

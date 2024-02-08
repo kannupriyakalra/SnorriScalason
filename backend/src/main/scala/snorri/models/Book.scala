@@ -1,7 +1,7 @@
-package snorri
+package snorri.models
 
-import io.circe.{Encoder, Decoder}
 import io.circe.generic.semiauto.*
+import io.circe.{Decoder, Encoder}
 
 // NOTE: Not yet reading series_t,sequence_i and cat
 case class Book(

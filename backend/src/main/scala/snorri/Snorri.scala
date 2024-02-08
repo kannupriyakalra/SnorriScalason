@@ -1,47 +1,26 @@
 package snorri
 
-import cats.effect.IO
-import io.circe.parser.decode
-import io.circe.syntax.*
-import io.circe.{Encoder, Json}
 import krop.all.*
-import krop.route.InvariantEntity
-import org.http4s.circe.{CirceEntityDecoder, CirceEntityEncoder}
-
-import scala.io.{BufferedSource, Source}
+import snorri.models.Book
+import snorri.repositories.BooksDb
 
 object Snorri {
-  private val jsonEntity: InvariantEntity[Json] =
-    Entity(
-      CirceEntityDecoder.circeEntityDecoder,
-      CirceEntityEncoder.circeEntityEncoder
-    )
-
   val echoRoute =
     Route(
-      Request.get(Path.root / "echo" / Param.string),
+      Request.get(Path / "echo" / Param.string),
       Response.ok(Entity.text)
     ).handle(param => s"Your message was $param")
 
-  val getBooksRoute =
+  val getAllBooksRoute =
     Route(
-      Request.get(Path.root / "books"),
-      Response.ok(jsonEntity)
-    ).handle(() => loadBooks().asJson)
+      Request.get(Path / "books"),
+      Response.ok(Entity.jsonOf[Iterable[Book]])
+    ).handle(() => BooksDb.all.values)
 
-  private def loadBooks(): List[Book] =
-    decode[List[Book]](retrieveBooks()) match {
-      case Right(books) => books
-      case Left(err) =>
-        err.fillInStackTrace().printStackTrace()
-        throw err.getCause
-    }
-
-  private def retrieveBooks(): String =
-    use(booksResource())(_.mkString)
-
-  private def booksResource(): BufferedSource = {
-    val stream = getClass.getResourceAsStream("/book.json")
-    Source.fromInputStream(stream)
+  val getBookByIdRoute = {
+    Route(
+      Request.get(Path / "books" :? Query("id", Param.string)),
+      Response.ok(Entity.jsonOf[Book]).orNotFound
+    ).handle(BooksDb.find(_))
   }
 }

@@ -6,7 +6,7 @@ ThisBuild / tlCiHeaderCheck := false
 
 val commonSettings = Seq(
   libraryDependencies ++=
-    "org.creativescala" %% "krop-core" % "0.6.0" ::
+    "org.creativescala" %% "krop-core" % "0.7.0" ::
       Modules.circe
 )
 

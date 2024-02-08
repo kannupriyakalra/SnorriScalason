@@ -1,4 +1,4 @@
-package snorri
+package snorri.utils
 
 // A lame try-with-resources equivalent
 def use[A <: AutoCloseable, B](resource: A)(code: A => B): B =
@@ -6,4 +6,3 @@ def use[A <: AutoCloseable, B](resource: A)(code: A => B): B =
     code(resource)
   finally
     resource.close()
-  
