@@ -36,9 +36,9 @@ lazy val integration = (project in file("integration"))
   .settings(
     publish / skip := true,
     libraryDependencies ++=
-      "com.dimafeng" %% "testcontainers-scala-scalatest" % "0.41.2" % Test ::
-      "com.dimafeng" %% "testcontainers-scala-postgresql" % "0.41.2" % Test ::
-      "org.postgresql" % "postgresql" % "42.5.1" % Test ::
-      "org.scalatest" %% "scalatest" % "3.2.18" % Test ::
-      Nil
+      "com.dimafeng"    %% "testcontainers-scala-scalatest"  % "0.41.2" % Test ::
+        "com.dimafeng"  %% "testcontainers-scala-postgresql" % "0.41.2" % Test ::
+        "org.postgresql" % "postgresql"                      % "42.5.1" % Test ::
+        "org.scalatest" %% "scalatest"                       % "3.2.18" % Test ::
+        Nil
   )
