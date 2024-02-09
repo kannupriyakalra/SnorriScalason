@@ -5,7 +5,6 @@ import tyrian.Html.*
 import tyrian.*
 
 import scala.scalajs.js.annotation.*
-import cats.syntax.group
 
 @JSExportTopLevel("Snorri")
 object Main extends TyrianIOApp[Msg, Model]:
