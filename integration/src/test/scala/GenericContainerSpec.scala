@@ -2,8 +2,6 @@ import com.dimafeng.testcontainers.PostgreSQLContainer
 import com.dimafeng.testcontainers.scalatest.TestContainerForAll
 import org.scalatest.flatspec.AnyFlatSpec
 import org.testcontainers.utility.DockerImageName
-import java.sql.DriverManager
-import org.testcontainers.containers.Container
 
 class PgSpec extends AnyFlatSpec with TestContainerForAll {
 
