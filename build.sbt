@@ -4,6 +4,9 @@ ThisBuild / scalaVersion    := "3.3.1"
 ThisBuild / tlBaseVersion   := "0.1"
 ThisBuild / tlCiHeaderCheck := false
 
+// Remove dependency submission, which is failing and is not worth setting up for this project
+ThisBuild / githubWorkflowAddedJobs ~= (jobs => jobs.filter(job => job.id != "dependency-submission"))
+
 val commonSettings = Seq(
   libraryDependencies ++=
     "org.creativescala" %% "krop-core" % "0.7.0" ::
