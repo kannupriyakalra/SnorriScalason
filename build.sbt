@@ -1,3 +1,6 @@
+import scala.sys.process._
+import org.flywaydb.core.Flyway
+
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / scalaVersion    := "3.3.1"
@@ -6,6 +9,14 @@ ThisBuild / tlCiHeaderCheck := false
 
 // Remove dependency submission, which is failing and is not worth setting up for this project
 ThisBuild / githubWorkflowAddedJobs ~= (jobs => jobs.filter(job => job.id != "dependency-submission"))
+
+val startDb = taskKey[Unit]("Start the Postgres Docker container")
+val initDb  = taskKey[Unit]("Create database tables and add initial data")
+
+val databaseDirectory     = settingKey[File]("The directory on the local file system where the database is stored.")
+val databaseContainerName = settingKey[String]("The name of the Docker container running the database.")
+val databaseName          = settingKey[String]("The name of the Snorri database.")
+val migrationsDirectory   = settingKey[File]("The directory on the local file system where the migration file is stored.")
 
 val commonSettings = Seq(
   libraryDependencies ++=
@@ -18,7 +29,7 @@ lazy val snorriRoot =
     .in(file("."))
     .aggregate(backend, frontend, integration)
 
-lazy val backend =
+lazy val backend: Project =
   project
     .in(file("backend"))
     .settings(
@@ -26,7 +37,37 @@ lazy val backend =
       // This sets Krop into development mode, which gives useful tools for
       // developers. If you don't set this, Krop runs in production mode.
       run / javaOptions += "-Dkrop.mode=development",
-      run / fork := true
+      run / fork            := true,
+      databaseDirectory     := baseDirectory.value / "data",
+      databaseContainerName := "snorri-db",
+      databaseName          := "snorri",
+      startDb := {
+        s"mkdir ${databaseDirectory.value}".!
+        s"docker run --name ${databaseContainerName.value} -p 5432:5432 -v ${databaseDirectory.value}/snorri-db -e POSTGRES_PASSWORD=password -d postgres:latest".!
+      },
+      initDb := {
+        val createDb =
+          s"""docker exec ${databaseContainerName.value} su - postgres -c "createdb ${databaseName.value}" || echo 'Ignoring error and continuing'"""
+        println(createDb)
+        createDb.!
+
+        val createTrgm =
+          s"""docker exec ${databaseContainerName.value} su - postgres -c "psql ${databaseName.value} -c 'CREATE EXTENSION IF NOT EXISTS pg_trgm;'" || echo 'Ignoring error and continuing'"""
+        println(createTrgm)
+        createTrgm.!
+
+        Flyway
+          .configure(this.getClass().getClassLoader())
+          .dataSource(
+            s"jdbc:postgresql://localhost:5432/${databaseName.value}",
+            "postgres",
+            "password"
+          )
+          .outOfOrder(true)
+          .loctions(migrationsDirectory)
+          .load
+          .migrate
+      }
     )
 
 lazy val frontend =
