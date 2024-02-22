@@ -41,6 +41,7 @@ lazy val backend: Project =
       databaseDirectory     := baseDirectory.value / "data",
       databaseContainerName := "snorri-db",
       databaseName          := "snorri",
+      migrationsDirectory := "???",
       startDb := {
         s"mkdir ${databaseDirectory.value}".!
         s"docker run --name ${databaseContainerName.value} -p 5432:5432 -v ${databaseDirectory.value}/snorri-db -e POSTGRES_PASSWORD=password -d postgres:latest".!
