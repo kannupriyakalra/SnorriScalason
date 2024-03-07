@@ -2,16 +2,17 @@ package snorri.models
 
 import io.circe.generic.semiauto.*
 import io.circe.{Decoder, Encoder}
+import skunk.codec.all.*
+import skunk.implicits.*
+import skunk.*
 
-// NOTE: Not yet reading series_t,sequence_i and cat
 final case class Book(
-  id:      String, // TBD: id is ISBN but should id here be different from ISBN?
-  name:    String,
-  author:  String,
-  genres:  String,
-  inStock: Boolean,
-  price:   Double,
-  pages:   Int
+  id:            Int,
+  isbn:          String,
+  name:          String,
+  author:        String,
+  pages:         Int,
+  publishedYear: Int
 )
 
 object Book:

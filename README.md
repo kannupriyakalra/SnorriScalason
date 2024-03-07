@@ -39,6 +39,10 @@ Visit [localhost:1234](http://localhost:1234/) and you should see the frontend.
 
 Code is in `src/main/{css,html,scala}`
 
+### Mar 7, 2024
+
+
+
 ### Feb 22, 2024
 
 - We attempted to setup a database with a table to store book. We decided to run this all as tasks from sbt using

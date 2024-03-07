@@ -34,6 +34,7 @@ lazy val backend: Project =
     .in(file("backend"))
     .settings(
       commonSettings,
+      libraryDependencies += "org.tpolecat" %% "skunk-core" % "0.6.3",
       // This sets Krop into development mode, which gives useful tools for
       // developers. If you don't set this, Krop runs in production mode.
       run / javaOptions += "-Dkrop.mode=development",
@@ -51,13 +52,13 @@ lazy val backend: Project =
 
         Flyway
           .configure(getClass.getClassLoader)
+          .driver("org.postgresql.Driver")
           .dataSource(
             s"jdbc:postgresql://localhost:5432/${databaseName.value}",
             "postgres",
             "password"
           )
           .schemas(databaseName.value)
-          .driver("org.postgresql.Driver")
           .locations(s"filesystem:${(Compile / resourceDirectory).value / "db" / "migration"}")
           .validateMigrationNaming(true)
           .failOnMissingLocations(true)
