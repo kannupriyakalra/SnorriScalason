@@ -1,5 +1,6 @@
-import scala.sys.process._
+import scala.sys.process.*
 import org.flywaydb.core.Flyway
+import DbTasks.*
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -16,7 +17,6 @@ val initDb  = taskKey[Unit]("Create database tables and add initial data")
 val databaseDirectory     = settingKey[File]("The directory on the local file system where the database is stored.")
 val databaseContainerName = settingKey[String]("The name of the Docker container running the database.")
 val databaseName          = settingKey[String]("The name of the Snorri database.")
-val migrationsDirectory   = settingKey[File]("The directory on the local file system where the migration file is stored.")
 
 val commonSettings = Seq(
   libraryDependencies ++=
@@ -41,31 +41,27 @@ lazy val backend: Project =
       databaseDirectory     := baseDirectory.value / "data",
       databaseContainerName := "snorri-db",
       databaseName          := "snorri",
-      migrationsDirectory := "???",
       startDb := {
         s"mkdir ${databaseDirectory.value}".!
         s"docker run --name ${databaseContainerName.value} -p 5432:5432 -v ${databaseDirectory.value}/snorri-db -e POSTGRES_PASSWORD=password -d postgres:latest".!
       },
       initDb := {
-        val createDb =
-          s"""docker exec ${databaseContainerName.value} su - postgres -c "createdb ${databaseName.value}" || echo 'Ignoring error and continuing'"""
-        println(createDb)
-        createDb.!
-
-        val createTrgm =
-          s"""docker exec ${databaseContainerName.value} su - postgres -c "psql ${databaseName.value} -c 'CREATE EXTENSION IF NOT EXISTS pg_trgm;'" || echo 'Ignoring error and continuing'"""
-        println(createTrgm)
-        createTrgm.!
+        createDb(databaseName.value, databaseContainerName.value)
+        createTrgm(databaseName.value, databaseContainerName.value)
 
         Flyway
-          .configure(this.getClass().getClassLoader())
+          .configure(getClass.getClassLoader)
           .dataSource(
             s"jdbc:postgresql://localhost:5432/${databaseName.value}",
             "postgres",
             "password"
           )
+          .schemas(databaseName.value)
+          .driver("org.postgresql.Driver")
+          .locations(s"filesystem:${(Compile / resourceDirectory).value / "db" / "migration"}")
+          .validateMigrationNaming(true)
+          .failOnMissingLocations(true)
           .outOfOrder(true)
-          .loctions(migrationsDirectory)
           .load
           .migrate
       }
@@ -88,7 +84,7 @@ lazy val integration = (project in file("integration"))
     libraryDependencies ++=
       "com.dimafeng"    %% "testcontainers-scala-scalatest"  % "0.41.2" % Test ::
         "com.dimafeng"  %% "testcontainers-scala-postgresql" % "0.41.2" % Test ::
-        "org.postgresql" % "postgresql"                      % "42.5.1" % Test ::
+        "org.postgresql" % "postgresql"                      % "42.7.1" % Test ::
         "org.scalatest" %% "scalatest"                       % "3.2.18" % Test ::
         Nil
   )
