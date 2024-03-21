@@ -1,47 +1,25 @@
 # SnorriScalason
 
-ScalaBridge Project - mentored by Zainab Ali & Noel Welsh
-
-## Frontend
-
-### Running
-
-To run the frontend you need to compile the code in sbt and then do some Javascript setup (which requires you have `npm` installed on your machine.)
-
-First, the Scala side of things. From within `sbt` run
-
-```scala
-frontend / fastOptJS
-```
-
-Now the Javascript side. From a terminal, change into the `frontend` directory
-
-```sh
-cd frontend
-```
-
-Install Javascript dependencies
-
-```sh
-npm install
-```
-
-Start the web server running the frontend
-
-```sh
-npm start
-```
-
-Visit [localhost:1234](http://localhost:1234/) and you should see the frontend.
+> ScalaBridge Project - mentored by Zainab Ali & Noel Welsh
 
 
-### Developing
+### Mar 21, 2024
 
-Code is in `src/main/{css,html,scala}`
+- API to add book
+  - Added basic scaffold for add book implementation. But the request is being dropped with a 500 ISE. Most likely because the request body is not being seen/parsed by `Snorri.addBookRoute` definition.
+  - TODOs
+    - It's time to add a service layer where you can do business logic and validations
+    - Add table that holds the price of the book, and other details
+- API to rate a book (1/5 stars)
+- Find a way to import csv/json file with books into the DB (seed data)
+- FUTURE: Need help from Zainab using FS2 to stream books (for `getAllBooks`)
 
 ### Mar 7, 2024
 
-
+- Got the sbt-DB tasks working
+- Got the Flyway migration working
+- Started working on using Skunk
+- Implemented find book api using Skunk (naively)
 
 ### Feb 22, 2024
 
@@ -49,9 +27,9 @@ Code is in `src/main/{css,html,scala}`
   - Docker to create the database
   - Flyway to populate the database
 
-- Errors to resolve:
-  - snorri": -c: line 1: unexpected EOF while looking for matching `"'
-  - how do we specify flyway files location to Flyway.configure
+- [x] Errors to resolve:
+  - [x] snorri": -c: line 1: unexpected EOF while looking for matching `"'
+  - [x] how do we specify flyway files location to Flyway.configure
 
 - We spent a lot of time doing devops style work. Not very much programming.
 

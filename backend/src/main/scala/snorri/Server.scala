@@ -6,7 +6,8 @@ import krop.all.given
 object Server {
   private val app: Application =
     Snorri.getBookByIdRoute
-      .orElse(Snorri.getAllBooksRoute)
+      .orElse(Snorri.addBookRoute)
+      .orElse(Snorri.getAllBooksRoute) // FUTURE: Need help from Zainab using FS2 to stream books
       .orElse(Snorri.echoRoute)
       .orElse(Application.notFound)
 

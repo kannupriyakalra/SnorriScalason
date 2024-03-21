@@ -6,6 +6,19 @@ import skunk.*
 import skunk.codec.all.*
 import skunk.Decoder
 
+case class AddBookInput(
+  isbn:          String,
+  name:          String,
+  author:        String,
+  pages:         Int,
+  publishedYear: Int
+)
+
+object AddBookInput {
+  implicit val circeEncoder: CirceEncoder[AddBookInput] = deriveEncoder[AddBookInput]
+  implicit val circeDecoder: CirceDecoder[AddBookInput] = deriveDecoder[AddBookInput]
+}
+
 case class Book(
   id:            Int,
   isbn:          String,
