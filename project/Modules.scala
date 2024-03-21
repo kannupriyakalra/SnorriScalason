@@ -1,7 +1,7 @@
 import sbt.*
 
 object Modules {
-  val CirceVersion = "0.14.6"
+  val CirceVersion  = "0.14.6"
   val FlywayVersion = "9.15.1"
 
   lazy val circe: List[ModuleID] =
@@ -9,8 +9,7 @@ object Modules {
       "io.circe" %% "circe-generic" % CirceVersion ::
       Nil
 
-
-  lazy val flyway: List[ModuleID] = 
+  lazy val flyway: List[ModuleID] =
     "org.flywaydb" % "flyway-core" % FlywayVersion :: Nil
 
 }
