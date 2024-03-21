@@ -39,14 +39,21 @@ Visit [localhost:1234](http://localhost:1234/) and you should see the frontend.
 
 Code is in `src/main/{css,html,scala}`
 
+### Mar 7, 2024
 
-### Next time
- - Set up a DB with postgres / skunk with a single table for comments.  
- - Goal: Have a comment box displayed on screen
- - Goodreads style.
- - Get a book with a given id
-    - Filter books by fields?
-    - Have those fields as query parameters?
+
+
+### Feb 22, 2024
+
+- We attempted to setup a database with a table to store book. We decided to run this all as tasks from sbt using
+  - Docker to create the database
+  - Flyway to populate the database
+
+- Errors to resolve:
+  - snorri": -c: line 1: unexpected EOF while looking for matching `"'
+  - how do we specify flyway files location to Flyway.configure
+
+- We spent a lot of time doing devops style work. Not very much programming.
 
 ### Feb 8, 2024
   - Set a target: We're going all into web development! Plus DBs. 
