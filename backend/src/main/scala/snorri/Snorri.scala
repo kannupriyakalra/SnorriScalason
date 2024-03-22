@@ -27,9 +27,6 @@ object Snorri {
   val addBookRoute =
     Route(
       Request.put(Path / "addBook").withEntity(Entity.jsonOf[AddBookInput]),
-      // Request.put(Path / "addBook").withEntity(Entity.text),
       Response.status(Status.Created, Entity.unit)
-    ).handle(b =>  {
-      BooksDb.addBook(b)
-    })
+    ).handle(BooksDb.addBook)
 }
